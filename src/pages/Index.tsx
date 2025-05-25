@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Settings } from 'lucide-react';
+import { Settings, CheckSquare, Bookmark, Brain, Users } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import ClockWidget from "@/components/ClockWidget";
 import TodoWidget from "@/components/TodoWidget";
@@ -20,16 +20,15 @@ const Index = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Header with Settings */}
-      <div className="absolute top-4 right-4 z-50">
+      {/* Header with Settings - Moved further right to avoid overlap */}
+      <div className="absolute top-6 right-6 z-50">
         <Button
           onClick={() => setIsSettingsOpen(true)}
           variant="outline"
           size="sm"
           className="hover-scale glass-card"
         >
-          <Settings className="w-4 h-4 mr-2" />
-          Settings
+          <Settings className="w-4 h-4" />
         </Button>
       </div>
 
@@ -43,15 +42,17 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Top Left - Quick Tasks (expandable) */}
-      <div className="absolute top-4 left-4">
+      {/* Top Left - Quick Tasks (expandable) - Adjusted positioning */}
+      <div className="absolute top-6 left-6">
         {!showTodos ? (
           <Button
             onClick={() => setShowTodos(true)}
             variant="outline"
+            size="sm"
             className="glass-card hover-scale"
           >
-            Quick Tasks
+            <CheckSquare className="w-4 h-4 mr-2" />
+            Tasks
           </Button>
         ) : (
           <div className="w-80 animate-fade-in">
@@ -60,14 +61,16 @@ const Index = () => {
         )}
       </div>
 
-      {/* Top Right - Bookmarks (expandable) */}
-      <div className="absolute top-4 right-20">
+      {/* Top Right - Bookmarks (expandable) - Increased spacing from settings */}
+      <div className="absolute top-6 right-24">
         {!showBookmarks ? (
           <Button
             onClick={() => setShowBookmarks(true)}
             variant="outline"
-            className="glass-card hover-scale mr-4"
+            size="sm"
+            className="glass-card hover-scale"
           >
+            <Bookmark className="w-4 h-4 mr-2" />
             Bookmarks
           </Button>
         ) : (
@@ -78,13 +81,15 @@ const Index = () => {
       </div>
 
       {/* Bottom Left - AI Tools (expandable) */}
-      <div className="absolute bottom-4 left-4">
+      <div className="absolute bottom-6 left-6">
         {!showAITools ? (
           <Button
             onClick={() => setShowAITools(true)}
             variant="outline"
+            size="sm"
             className="glass-card hover-scale"
           >
+            <Brain className="w-4 h-4 mr-2" />
             AI Tools
           </Button>
         ) : (
@@ -95,13 +100,15 @@ const Index = () => {
       </div>
 
       {/* Bottom Right - Social & Professional (expandable) */}
-      <div className="absolute bottom-4 right-4">
+      <div className="absolute bottom-6 right-6">
         {!showSocial ? (
           <Button
             onClick={() => setShowSocial(true)}
             variant="outline"
+            size="sm"
             className="glass-card hover-scale"
           >
+            <Users className="w-4 h-4 mr-2" />
             Social & Apps
           </Button>
         ) : (
