@@ -48,15 +48,10 @@ const SearchEngines = () => {
   };
 
   return (
-    <div className="glass-card p-6 animate-fade-in">
-      <h3 className="text-lg font-semibold mb-4 text-primary flex items-center justify-center">
-        <Search className="w-5 h-5 mr-2" />
-        Quick Search
-      </h3>
-      
-      <div className="mb-6">
+    <div className="glass-card p-4 animate-fade-in">
+      <div className="mb-4">
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-3 h-3 text-muted-foreground" />
           <input
             type="text"
             value={query}
@@ -66,30 +61,23 @@ const SearchEngines = () => {
                 handleSearch(searchEngines[0].url);
               }
             }}
-            placeholder="Search anything..."
-            className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all text-foreground placeholder:text-muted-foreground"
+            placeholder="Search..."
+            className="w-full pl-9 pr-3 py-2 bg-white/5 border border-white/20 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary/50 transition-all text-foreground placeholder:text-muted-foreground text-sm"
           />
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="flex gap-2 justify-center">
         {searchEngines.map((engine) => {
           const IconComponent = engine.icon;
           return (
             <button
               key={engine.name}
               onClick={() => handleSearch(engine.url)}
-              className={`bg-gradient-to-r ${engine.gradient} hover:bg-gradient-to-r hover:${engine.hoverGradient} text-white p-4 rounded-xl transition-all duration-300 hover-scale flex flex-col items-center justify-center space-y-2 group shadow-lg hover:shadow-xl`}
+              className={`bg-gradient-to-r ${engine.gradient} hover:bg-gradient-to-r hover:${engine.hoverGradient} text-white p-2 rounded-lg transition-all duration-300 hover-scale flex items-center justify-center group shadow-md hover:shadow-lg min-w-[2.5rem] h-10`}
+              title={engine.name}
             >
-              <div className="flex items-center space-x-2">
-                <div className="p-2 bg-white/20 rounded-lg group-hover:bg-white/30 transition-colors">
-                  <IconComponent className="w-5 h-5" />
-                </div>
-                <span className="font-medium text-sm">{engine.shortcut}</span>
-              </div>
-              <span className="text-xs opacity-90 group-hover:opacity-100 transition-opacity">
-                {engine.name}
-              </span>
+              <IconComponent className="w-3.5 h-3.5" />
             </button>
           );
         })}
