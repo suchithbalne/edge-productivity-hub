@@ -1,14 +1,13 @@
 
 import React, { useState, useEffect } from 'react';
-import { Settings, CheckSquare, Bookmark, Brain, Users, Globe } from 'lucide-react';
+import { Settings, CheckSquare, Bookmark, Brain, Users } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import ClockWidget from "@/components/ClockWidget";
 import TodoWidget from "@/components/TodoWidget";
 import SearchEngines from "@/components/SearchEngines";
 import SocialNetworking from "@/components/SocialNetworking";
 import AITools from "@/components/AITools";
-import GoogleWorkspace from "@/components/GoogleWorkspace";
-import MicrosoftOffice from "@/components/MicrosoftOffice";
+import QuickApps from "@/components/QuickApps";
 import BookmarksWidget from "@/components/BookmarksWidget";
 import SettingsPanel from "@/components/SettingsPanel";
 
@@ -27,8 +26,6 @@ const Index = () => {
   const [showBookmarks, setShowBookmarks] = useState(false);
   const [showAITools, setShowAITools] = useState(false);
   const [showSocial, setShowSocial] = useState(false);
-  const [showGoogleWorkspace, setShowGoogleWorkspace] = useState(false);
-  const [showMicrosoftOffice, setShowMicrosoftOffice] = useState(false);
 
   // Initialize theme on component mount
   useEffect(() => {
@@ -44,52 +41,16 @@ const Index = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Top Right - Settings and other buttons */}
-      <div className="absolute top-6 right-6 z-50 flex flex-col gap-2">
+      {/* Header with Settings - Moved further right to avoid overlap */}
+      <div className="absolute top-6 right-6 z-50">
         <Button
           onClick={() => setIsSettingsOpen(true)}
           variant="outline"
           size="sm"
-          className="hover-scale glass-card h-8 w-8 p-0"
+          className="hover-scale glass-card"
         >
-          <Settings className="w-3 h-3" />
+          <Settings className="w-4 h-4" />
         </Button>
-        
-        {/* Social Button */}
-        {!showSocial ? (
-          <Button
-            onClick={() => setShowSocial(true)}
-            variant="outline"
-            size="sm"
-            className="glass-card hover-scale h-8 w-8 p-0"
-          >
-            <Users className="w-3 h-3" />
-          </Button>
-        ) : null}
-        
-        {/* Google Workspace Button */}
-        {!showGoogleWorkspace ? (
-          <Button
-            onClick={() => setShowGoogleWorkspace(true)}
-            variant="outline"
-            size="sm"
-            className="glass-card hover-scale h-8 w-8 p-0"
-          >
-            <Globe className="w-3 h-3" />
-          </Button>
-        ) : null}
-        
-        {/* Microsoft Office Button */}
-        {!showMicrosoftOffice ? (
-          <Button
-            onClick={() => setShowMicrosoftOffice(true)}
-            variant="outline"
-            size="sm"
-            className="glass-card hover-scale h-8 w-8 p-0"
-          >
-            <FileText className="w-3 h-3" />
-          </Button>
-        ) : null}
       </div>
 
       {/* Center - Clock and Search */}
@@ -97,83 +58,91 @@ const Index = () => {
         <div className="mb-8">
           <ClockWidget />
         </div>
-        <div className="w-80">
+        <div className="w-96">
           <SearchEngines />
         </div>
       </div>
 
-      {/* Top Left - Quick Tasks */}
+      {/* Top Left - Quick Tasks (expandable) - Adjusted positioning */}
       <div className="absolute top-6 left-6">
         {!showTodos ? (
           <Button
             onClick={() => setShowTodos(true)}
             variant="outline"
             size="sm"
-            className="glass-card hover-scale h-8 w-8 p-0"
+            className="glass-card hover-scale"
           >
-            <CheckSquare className="w-3 h-3" />
+            <CheckSquare className="w-4 h-4 mr-2" />
+            Tasks
           </Button>
         ) : (
-          <div className="w-72 animate-fade-in">
+          <div className="w-80 animate-fade-in">
             <TodoWidget onClose={() => setShowTodos(false)} />
           </div>
         )}
       </div>
 
-      {/* Top Right - Bookmarks */}
-      <div className="absolute top-6 right-20">
+      {/* Top Right - Bookmarks (expandable) - Increased spacing from settings */}
+      <div className="absolute top-6 right-24">
         {!showBookmarks ? (
           <Button
             onClick={() => setShowBookmarks(true)}
             variant="outline"
             size="sm"
-            className="glass-card hover-scale h-8 w-8 p-0"
+            className="glass-card hover-scale"
           >
-            <Bookmark className="w-3 h-3" />
+            <Bookmark className="w-4 h-4 mr-2" />
+            Bookmarks
           </Button>
         ) : (
-          <div className="w-72 animate-fade-in">
+          <div className="w-80 animate-fade-in">
             <BookmarksWidget onClose={() => setShowBookmarks(false)} />
           </div>
         )}
       </div>
 
-      {/* Bottom Left - AI Tools */}
+      {/* Bottom Left - AI Tools (expandable) */}
       <div className="absolute bottom-6 left-6">
         {!showAITools ? (
           <Button
             onClick={() => setShowAITools(true)}
             variant="outline"
             size="sm"
-            className="glass-card hover-scale h-8 w-8 p-0"
+            className="glass-card hover-scale"
           >
-            <Brain className="w-3 h-3" />
+            <Brain className="w-4 h-4 mr-2" />
+            AI Tools
           </Button>
         ) : (
-          <div className="w-60 animate-fade-in">
+          <div className="w-80 animate-fade-in">
             <AITools onClose={() => setShowAITools(false)} />
           </div>
         )}
       </div>
 
-      {/* Right Side Expanded Panels */}
-      {showSocial && (
-        <div className="absolute top-20 right-6 w-60 animate-fade-in">
-          <SocialNetworking onClose={() => setShowSocial(false)} />
-        </div>
-      )}
-
-      {showGoogleWorkspace && (
-        <div className="absolute top-32 right-6 w-52 animate-fade-in">
-          <GoogleWorkspace onClose={() => setShowGoogleWorkspace(false)} />
-        </div>
-      )}
-
-      {showMicrosoftOffice && (
-        <div className="absolute top-44 right-6 w-52 animate-fade-in">
-          <MicrosoftOffice onClose={() => setShowMicrosoftOffice(false)} />
-        </div>
-      )}
+      {/* Bottom Right - Social & Professional (expandable) */}
+      <div className="absolute bottom-6 right-6">
+        {!showSocial ? (
+          <Button
+            onClick={() => setShowSocial(true)}
+            variant="outline"
+            size="sm"
+            className="glass-card hover-scale"
+          >
+            <Users className="w-4 h-4 mr-2" />
+            Social & Apps
+          </Button>
+        ) : (
+          <div className="space-y-4 animate-fade-in">
+            <div className="w-80">
+              <SocialNetworking onClose={() => setShowSocial(false)} />
+            </div>
+            <div className="w-80">
+              <QuickApps />
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* Floating Elements */}
       <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 space-x-3 flex">

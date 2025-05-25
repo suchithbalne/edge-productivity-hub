@@ -18,17 +18,17 @@ interface SocialNetworkingProps {
 
 const SocialNetworking = ({ onClose }: SocialNetworkingProps) => {
   return (
-    <div className="glass-card p-4 animate-fade-in">
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-medium text-primary">Social</h3>
+    <div className="glass-card p-6 animate-fade-in">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold text-primary">Social & Professional</h3>
         {onClose && (
-          <Button onClick={onClose} size="sm" variant="ghost" className="h-6 w-6 p-0">
-            <X className="w-3 h-3" />
+          <Button onClick={onClose} size="sm" variant="ghost">
+            <X className="w-4 h-4" />
           </Button>
         )}
       </div>
       
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-3">
         {socialPlatforms.map((platform) => {
           const IconComponent = platform.icon;
           return (
@@ -37,9 +37,9 @@ const SocialNetworking = ({ onClose }: SocialNetworkingProps) => {
               href={platform.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex flex-col items-center p-2 rounded-lg bg-white/5 transition-all hover-scale ${platform.color} group`}
+              className={`flex flex-col items-center p-4 rounded-lg bg-white/5 transition-all hover-scale ${platform.color} group`}
             >
-              <IconComponent className="w-4 h-4 mb-1 group-hover:text-white transition-colors" />
+              <IconComponent className="w-6 h-6 mb-2 group-hover:text-white transition-colors" />
               <span className="text-xs text-center group-hover:text-white transition-colors">
                 {platform.name}
               </span>
