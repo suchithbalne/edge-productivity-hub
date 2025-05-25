@@ -1,8 +1,40 @@
-# Welcome to your Lovable project
+# Modern Productivity Hub - Browser Homepage Extension
 
-## Project info
+## Features
 
-**URL**: https://lovable.dev/projects/aedbf6cc-087d-4bb0-b5c4-d6cb3f5e6849
+- **Customizable Clock**: Toggle between digital and analog clock styles
+- **Theme Switching**: Switch between light and dark themes
+- **Quick Search**: Search using multiple search engines with a minimalist interface
+- **Customizable Tools**: Add and manage your favorite AI tools, social links, and workspace apps
+- **Bookmarks**: Easily access and organize your bookmarks
+- **Tasks**: Keep track of your to-do items
+- **Weather Widget**: View current weather conditions
+- **Responsive Design**: Works on various screen sizes
+
+## Chrome Extension Setup
+
+To use this as a Chrome extension:
+
+1. Build the project:
+   ```sh
+   npm run build
+   ```
+
+2. Open Chrome and navigate to `chrome://extensions/`
+
+3. Enable "Developer mode" by toggling the switch in the top right corner
+
+4. Click "Load unpacked" and select the `dist` folder from this project
+
+5. The extension is now installed! Open a new tab to see your customized homepage
+
+## How to use
+
+- **Theme Toggle**: Click the sun/moon icon in the clock widget to switch between light and dark themes
+- **Clock Style**: Toggle between digital and analog clock styles using the button in the clock widget
+- **Search**: Use the search bar to quickly search with your preferred engine
+- **Customization**: Click the settings icon in each widget to add or remove items
+- **Expandable Menus**: Click on AI Tools, Social, Google, or Microsoft buttons to expand their respective menus
 
 ## How can I edit this code?
 

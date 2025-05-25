@@ -10,6 +10,9 @@ import AITools from "@/components/AITools";
 import QuickApps from "@/components/QuickApps";
 import BookmarksWidget from "@/components/BookmarksWidget";
 import SettingsPanel from "@/components/SettingsPanel";
+import SocialButtonsExpand from "@/components/SocialButtonsExpand";
+import WorkspaceButtons from "@/components/WorkspaceButtons";
+import AIToolsExpand from "@/components/AIToolsExpand";
 
 const colorThemes = [
   { name: 'Green', primary: '142 86% 28%', accent: '142 76% 36%' },
@@ -41,7 +44,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Header with Settings - Moved further right to avoid overlap */}
+      {/* Settings button in original position */}
       <div className="absolute top-6 right-6 z-50">
         <Button
           onClick={() => setIsSettingsOpen(true)}
@@ -49,8 +52,26 @@ const Index = () => {
           size="sm"
           className="hover-scale glass-card"
         >
-          <Settings className="w-4 h-4" />
+          <Settings className="w-3 h-3 mr-1" />
+          <span className="text-xs">Settings</span>
         </Button>
+      </div>
+      
+      {/* Equidistant buttons across right edge */}
+      <div className="fixed right-0 top-0 bottom-0 flex flex-col justify-center items-end z-40">
+        <div className="flex flex-col space-y-[30vh]">
+          <div className="pr-6">
+            <SocialButtonsExpand />
+          </div>
+          
+          <div className="pr-6">
+            <WorkspaceButtons type="google" />
+          </div>
+          
+          <div className="pr-6">
+            <WorkspaceButtons type="microsoft" />
+          </div>
+        </div>
       </div>
 
       {/* Center - Clock and Search */}
@@ -58,7 +79,7 @@ const Index = () => {
         <div className="mb-8">
           <ClockWidget />
         </div>
-        <div className="w-96">
+        <div className="w-[500px]">
           <SearchEngines />
         </div>
       </div>
@@ -72,8 +93,8 @@ const Index = () => {
             size="sm"
             className="glass-card hover-scale"
           >
-            <CheckSquare className="w-4 h-4 mr-2" />
-            Tasks
+            <CheckSquare className="w-3 h-3 mr-1" />
+            <span className="text-xs">Tasks</span>
           </Button>
         ) : (
           <div className="w-80 animate-fade-in">
@@ -83,7 +104,7 @@ const Index = () => {
       </div>
 
       {/* Top Right - Bookmarks (expandable) - Increased spacing from settings */}
-      <div className="absolute top-6 right-24">
+      <div className="absolute top-6 right-36">
         {!showBookmarks ? (
           <Button
             onClick={() => setShowBookmarks(true)}
@@ -91,8 +112,8 @@ const Index = () => {
             size="sm"
             className="glass-card hover-scale"
           >
-            <Bookmark className="w-4 h-4 mr-2" />
-            Bookmarks
+            <Bookmark className="w-3 h-3 mr-1" />
+            <span className="text-xs">Bookmarks</span>
           </Button>
         ) : (
           <div className="w-80 animate-fade-in">
@@ -101,27 +122,13 @@ const Index = () => {
         )}
       </div>
 
-      {/* Bottom Left - AI Tools (expandable) */}
+      {/* Bottom Left - AI Tools (expandable horizontally) */}
       <div className="absolute bottom-6 left-6">
-        {!showAITools ? (
-          <Button
-            onClick={() => setShowAITools(true)}
-            variant="outline"
-            size="sm"
-            className="glass-card hover-scale"
-          >
-            <Brain className="w-4 h-4 mr-2" />
-            AI Tools
-          </Button>
-        ) : (
-          <div className="w-80 animate-fade-in">
-            <AITools onClose={() => setShowAITools(false)} />
-          </div>
-        )}
+        <AIToolsExpand />
       </div>
 
       {/* Bottom Right - Social & Professional (expandable) */}
-      <div className="absolute bottom-6 right-6">
+      <div className="absolute bottom-6 right-36">
         {!showSocial ? (
           <Button
             onClick={() => setShowSocial(true)}
@@ -129,8 +136,8 @@ const Index = () => {
             size="sm"
             className="glass-card hover-scale"
           >
-            <Users className="w-4 h-4 mr-2" />
-            Social & Apps
+            <Users className="w-3 h-3 mr-1" />
+            <span className="text-xs">Apps</span>
           </Button>
         ) : (
           <div className="space-y-4 animate-fade-in">

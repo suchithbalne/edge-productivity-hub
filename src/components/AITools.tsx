@@ -64,11 +64,11 @@ const AITools = ({ onClose }: AIToolsProps) => {
               rel="noopener noreferrer"
               className={`flex flex-col items-center p-4 rounded-lg bg-white/5 transition-all hover-scale ${tool.color} group`}
             >
-              <IconComponent className="w-8 h-8 mb-2 group-hover:text-white transition-colors" />
-              <span className="text-sm font-medium group-hover:text-white transition-colors text-center">
+              <IconComponent className="w-5 h-5 mb-1 group-hover:text-white transition-colors" />
+              <span className="text-xs font-medium group-hover:text-white transition-colors text-center">
                 {tool.name}
               </span>
-              <span className="text-xs text-muted-foreground group-hover:text-gray-200 transition-colors text-center">
+              <span className="text-[10px] text-muted-foreground group-hover:text-gray-200 transition-colors text-center">
                 {tool.description}
               </span>
             </a>

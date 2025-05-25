@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { Settings, X, Palette, Layout, User, Clock } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Settings, X, Palette, Layout, User, Clock, MapPin, Sun } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -29,8 +29,20 @@ const SettingsPanel = ({ isOpen, onClose }: SettingsPanelProps) => {
   const [digitalClock, setDigitalClock] = useState(() => 
     localStorage.getItem('edge-homepage-digital-clock') !== 'false'
   );
+  const [clock24Hour, setClock24Hour] = useState(() => 
+    localStorage.getItem('edge-homepage-24hour-clock') === 'true'
+  );
   const [selectedTheme, setSelectedTheme] = useState(() => 
     localStorage.getItem('edge-homepage-theme') || 'Green'
+  );
+  const [weatherLocation, setWeatherLocation] = useState(() => 
+    localStorage.getItem('edge-homepage-weather-location') || ''
+  );
+  const [useCustomLocation, setUseCustomLocation] = useState(() => 
+    localStorage.getItem('edge-homepage-use-custom-location') === 'true'
+  );
+  const [weatherApiKey, setWeatherApiKey] = useState(() => 
+    localStorage.getItem('edge-homepage-weather-api-key') || ''
   );
 
   const saveUserName = () => {
@@ -48,6 +60,25 @@ const SettingsPanel = ({ isOpen, onClose }: SettingsPanelProps) => {
     setDigitalClock(isDigital);
     localStorage.setItem('edge-homepage-digital-clock', isDigital.toString());
     window.dispatchEvent(new CustomEvent('clockTypeChanged', { detail: { isDigital } }));
+  };
+  
+  const toggleClockFormat = (is24Hour: boolean) => {
+    setClock24Hour(is24Hour);
+    localStorage.setItem('edge-homepage-24hour-clock', is24Hour.toString());
+    window.dispatchEvent(new CustomEvent('clockFormatChanged', { detail: { is24Hour } }));
+  };
+  
+  const saveWeatherLocation = () => {
+    localStorage.setItem('edge-homepage-weather-location', weatherLocation);
+    localStorage.setItem('edge-homepage-use-custom-location', useCustomLocation.toString());
+    localStorage.setItem('edge-homepage-weather-api-key', weatherApiKey);
+    window.dispatchEvent(new CustomEvent('weatherLocationChanged', { 
+      detail: { 
+        location: weatherLocation,
+        useCustomLocation,
+        apiKey: weatherApiKey
+      } 
+    }));
   };
 
   const changeTheme = (theme: typeof colorThemes[0]) => {
@@ -126,14 +157,77 @@ const SettingsPanel = ({ isOpen, onClose }: SettingsPanelProps) => {
           <div>
             <label className="flex items-center text-sm font-medium mb-2">
               <Clock className="w-4 h-4 mr-2" />
-              Clock Type
+              Clock Settings
             </label>
-            <div className="flex items-center justify-between p-3 bg-white/5 rounded-lg">
-              <span className="text-sm">Digital Clock</span>
-              <Switch
-                checked={digitalClock}
-                onCheckedChange={toggleClockType}
-              />
+            <div className="space-y-2">
+              <div className="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+                <span className="text-sm">Digital Clock</span>
+                <Switch
+                  checked={digitalClock}
+                  onCheckedChange={toggleClockType}
+                />
+              </div>
+              <div className="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+                <span className="text-sm">24-Hour Format</span>
+                <Switch
+                  checked={clock24Hour}
+                  onCheckedChange={toggleClockFormat}
+                />
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <label className="flex items-center text-sm font-medium mb-2">
+              <Sun className="w-4 h-4 mr-2" />
+              Weather Settings
+            </label>
+            <div className="space-y-2">
+              <div className="p-3 bg-white/5 rounded-lg space-y-3">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">OpenWeatherMap API Key</label>
+                  <div className="flex items-center">
+                    <Input
+                      type="password"
+                      value={weatherApiKey}
+                      onChange={(e) => setWeatherApiKey(e.target.value)}
+                      placeholder="Enter your API key"
+                      className="flex-1"
+                    />
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Get a free API key from <a href="https://openweathermap.org/api" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">OpenWeatherMap</a>. Without an API key, mock weather data will be used.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+                <span className="text-sm">Use Custom Location</span>
+                <Switch
+                  checked={useCustomLocation}
+                  onCheckedChange={setUseCustomLocation}
+                />
+              </div>
+              {useCustomLocation && (
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <MapPin className="w-4 h-4 mr-2 text-muted-foreground" />
+                    <Input
+                      value={weatherLocation}
+                      onChange={(e) => setWeatherLocation(e.target.value)}
+                      placeholder="City name (e.g., New York)"
+                      className="flex-1"
+                    />
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Enter a city name to get weather for that location.
+                  </p>
+                </div>
+              )}
+              
+              <Button onClick={saveWeatherLocation} size="sm" className="w-full">
+                Save Weather Settings
+              </Button>
             </div>
           </div>
 
