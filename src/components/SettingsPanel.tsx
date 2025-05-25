@@ -10,6 +10,15 @@ interface SettingsPanelProps {
   onClose: () => void;
 }
 
+const colorThemes = [
+  { name: 'Green', primary: '142 86% 28%', accent: '142 76% 36%' },
+  { name: 'Blue', primary: '217 91% 60%', accent: '217 81% 70%' },
+  { name: 'Purple', primary: '262 83% 58%', accent: '262 73% 68%' },
+  { name: 'Orange', primary: '25 95% 53%', accent: '25 85% 63%' },
+  { name: 'Pink', primary: '330 81% 60%', accent: '330 71% 70%' },
+  { name: 'Red', primary: '0 84% 60%', accent: '0 74% 70%' }
+];
+
 const SettingsPanel = ({ isOpen, onClose }: SettingsPanelProps) => {
   const [userName, setUserName] = useState(() => 
     localStorage.getItem('edge-homepage-username') || 'User'
@@ -20,9 +29,14 @@ const SettingsPanel = ({ isOpen, onClose }: SettingsPanelProps) => {
   const [digitalClock, setDigitalClock] = useState(() => 
     localStorage.getItem('edge-homepage-digital-clock') !== 'false'
   );
+  const [selectedTheme, setSelectedTheme] = useState(() => 
+    localStorage.getItem('edge-homepage-theme') || 'Green'
+  );
 
   const saveUserName = () => {
     localStorage.setItem('edge-homepage-username', userName);
+    // Trigger custom event to update display name
+    window.dispatchEvent(new CustomEvent('userNameChanged', { detail: { userName } }));
   };
 
   const toggleCompactMode = (enabled: boolean) => {
@@ -33,8 +47,22 @@ const SettingsPanel = ({ isOpen, onClose }: SettingsPanelProps) => {
   const toggleClockType = (isDigital: boolean) => {
     setDigitalClock(isDigital);
     localStorage.setItem('edge-homepage-digital-clock', isDigital.toString());
-    // Trigger a custom event to update the clock
     window.dispatchEvent(new CustomEvent('clockTypeChanged', { detail: { isDigital } }));
+  };
+
+  const changeTheme = (theme: typeof colorThemes[0]) => {
+    setSelectedTheme(theme.name);
+    localStorage.setItem('edge-homepage-theme', theme.name);
+    
+    // Update CSS custom properties
+    const root = document.documentElement;
+    root.style.setProperty('--primary', theme.primary);
+    root.style.setProperty('--ring', theme.primary);
+    root.style.setProperty('--sidebar-primary', theme.primary);
+    root.style.setProperty('--sidebar-ring', theme.primary);
+    
+    // Trigger theme change event
+    window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme } }));
   };
 
   if (!isOpen) return null;
@@ -42,7 +70,7 @@ const SettingsPanel = ({ isOpen, onClose }: SettingsPanelProps) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative glass-card p-6 w-full max-w-md mx-4 animate-fade-in">
+      <div className="relative glass-card p-6 w-full max-w-md mx-4 animate-fade-in max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-semibold text-primary flex items-center">
             <Settings className="w-5 h-5 mr-2" />
@@ -71,6 +99,32 @@ const SettingsPanel = ({ isOpen, onClose }: SettingsPanelProps) => {
 
           <div>
             <label className="flex items-center text-sm font-medium mb-2">
+              <Palette className="w-4 h-4 mr-2" />
+              Color Theme
+            </label>
+            <div className="grid grid-cols-3 gap-2">
+              {colorThemes.map((theme) => (
+                <button
+                  key={theme.name}
+                  onClick={() => changeTheme(theme)}
+                  className={`p-3 rounded-lg border-2 transition-all ${
+                    selectedTheme === theme.name 
+                      ? 'border-primary bg-primary/10' 
+                      : 'border-white/10 bg-white/5 hover:bg-white/10'
+                  }`}
+                >
+                  <div 
+                    className="w-6 h-6 rounded-full mx-auto mb-1"
+                    style={{ backgroundColor: `hsl(${theme.primary})` }}
+                  />
+                  <span className="text-xs">{theme.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="flex items-center text-sm font-medium mb-2">
               <Clock className="w-4 h-4 mr-2" />
               Clock Type
             </label>
@@ -94,16 +148,6 @@ const SettingsPanel = ({ isOpen, onClose }: SettingsPanelProps) => {
                 checked={compactMode}
                 onCheckedChange={toggleCompactMode}
               />
-            </div>
-          </div>
-
-          <div>
-            <label className="flex items-center text-sm font-medium mb-2">
-              <Palette className="w-4 h-4 mr-2" />
-              Theme
-            </label>
-            <div className="text-sm text-muted-foreground p-3 bg-white/5 rounded-lg">
-              Dark theme is currently active. Light theme coming soon!
             </div>
           </div>
         </div>
