@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Plus, Trash2, Check } from 'lucide-react';
+import { Plus, Trash2, Check, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -10,7 +10,11 @@ interface Todo {
   completed: boolean;
 }
 
-const TodoWidget = () => {
+interface TodoWidgetProps {
+  onClose?: () => void;
+}
+
+const TodoWidget = ({ onClose }: TodoWidgetProps) => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState('');
 
@@ -48,7 +52,14 @@ const TodoWidget = () => {
 
   return (
     <div className="glass-card p-6 animate-fade-in">
-      <h3 className="text-lg font-semibold mb-4 text-primary">Quick Tasks</h3>
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold text-primary">Quick Tasks</h3>
+        {onClose && (
+          <Button onClick={onClose} size="sm" variant="ghost">
+            <X className="w-4 h-4" />
+          </Button>
+        )}
+      </div>
       
       <div className="flex gap-2 mb-4">
         <Input

@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Bookmark, Plus, Trash2, ExternalLink } from 'lucide-react';
+import { Bookmark, Plus, Trash2, ExternalLink, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -10,7 +10,11 @@ interface BookmarkItem {
   url: string;
 }
 
-const BookmarksWidget = () => {
+interface BookmarksWidgetProps {
+  onClose?: () => void;
+}
+
+const BookmarksWidget = ({ onClose }: BookmarksWidgetProps) => {
   const [bookmarks, setBookmarks] = useState<BookmarkItem[]>([]);
   const [newName, setNewName] = useState('');
   const [newUrl, setNewUrl] = useState('');
@@ -58,15 +62,22 @@ const BookmarksWidget = () => {
           <Bookmark className="w-5 h-5 mr-2" />
           Bookmarks
         </h3>
-        <Button
-          onClick={() => setIsAdding(!isAdding)}
-          size="sm"
-          variant="outline"
-          className="text-xs"
-        >
-          <Plus className="w-3 h-3 mr-1" />
-          Add
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            onClick={() => setIsAdding(!isAdding)}
+            size="sm"
+            variant="outline"
+            className="text-xs"
+          >
+            <Plus className="w-3 h-3 mr-1" />
+            Add
+          </Button>
+          {onClose && (
+            <Button onClick={onClose} size="sm" variant="ghost">
+              <X className="w-4 h-4" />
+            </Button>
+          )}
+        </div>
       </div>
 
       {isAdding && (

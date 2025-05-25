@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { Facebook, Instagram, Twitter, Linkedin, Youtube, Github } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Linkedin, Youtube, Github, X } from 'lucide-react';
+import { Button } from "@/components/ui/button";
 
 const socialPlatforms = [
   { name: 'Facebook', url: 'https://facebook.com', icon: Facebook, color: 'hover:bg-blue-600' },
@@ -11,10 +12,21 @@ const socialPlatforms = [
   { name: 'GitHub', url: 'https://github.com', icon: Github, color: 'hover:bg-gray-700' }
 ];
 
-const SocialNetworking = () => {
+interface SocialNetworkingProps {
+  onClose?: () => void;
+}
+
+const SocialNetworking = ({ onClose }: SocialNetworkingProps) => {
   return (
     <div className="glass-card p-6 animate-fade-in">
-      <h3 className="text-lg font-semibold mb-4 text-primary">Social & Professional</h3>
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold text-primary">Social & Professional</h3>
+        {onClose && (
+          <Button onClick={onClose} size="sm" variant="ghost">
+            <X className="w-4 h-4" />
+          </Button>
+        )}
+      </div>
       
       <div className="grid grid-cols-3 gap-3">
         {socialPlatforms.map((platform) => {

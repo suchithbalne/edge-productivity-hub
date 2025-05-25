@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { Bot, Brain, MessageSquare, Code } from 'lucide-react';
+import { Bot, Brain, MessageSquare, Code, X } from 'lucide-react';
+import { Button } from "@/components/ui/button";
 
 const aiTools = [
   {
@@ -33,13 +34,24 @@ const aiTools = [
   }
 ];
 
-const AITools = () => {
+interface AIToolsProps {
+  onClose?: () => void;
+}
+
+const AITools = ({ onClose }: AIToolsProps) => {
   return (
     <div className="glass-card p-6 animate-fade-in">
-      <h3 className="text-lg font-semibold mb-4 text-primary flex items-center">
-        <Brain className="w-5 h-5 mr-2" />
-        AI Tools
-      </h3>
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold text-primary flex items-center">
+          <Brain className="w-5 h-5 mr-2" />
+          AI Tools
+        </h3>
+        {onClose && (
+          <Button onClick={onClose} size="sm" variant="ghost">
+            <X className="w-4 h-4" />
+          </Button>
+        )}
+      </div>
       
       <div className="grid grid-cols-2 gap-3">
         {aiTools.map((tool) => {

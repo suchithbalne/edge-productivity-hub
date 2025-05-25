@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Settings, X, Palette, Layout, User } from 'lucide-react';
+import { Settings, X, Palette, Layout, User, Clock } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -17,6 +17,9 @@ const SettingsPanel = ({ isOpen, onClose }: SettingsPanelProps) => {
   const [compactMode, setCompactMode] = useState(() => 
     localStorage.getItem('edge-homepage-compact') === 'true'
   );
+  const [digitalClock, setDigitalClock] = useState(() => 
+    localStorage.getItem('edge-homepage-digital-clock') !== 'false'
+  );
 
   const saveUserName = () => {
     localStorage.setItem('edge-homepage-username', userName);
@@ -25,6 +28,13 @@ const SettingsPanel = ({ isOpen, onClose }: SettingsPanelProps) => {
   const toggleCompactMode = (enabled: boolean) => {
     setCompactMode(enabled);
     localStorage.setItem('edge-homepage-compact', enabled.toString());
+  };
+
+  const toggleClockType = (isDigital: boolean) => {
+    setDigitalClock(isDigital);
+    localStorage.setItem('edge-homepage-digital-clock', isDigital.toString());
+    // Trigger a custom event to update the clock
+    window.dispatchEvent(new CustomEvent('clockTypeChanged', { detail: { isDigital } }));
   };
 
   if (!isOpen) return null;
@@ -56,6 +66,20 @@ const SettingsPanel = ({ isOpen, onClose }: SettingsPanelProps) => {
                 placeholder="Your name..."
               />
               <Button onClick={saveUserName} size="sm">Save</Button>
+            </div>
+          </div>
+
+          <div>
+            <label className="flex items-center text-sm font-medium mb-2">
+              <Clock className="w-4 h-4 mr-2" />
+              Clock Type
+            </label>
+            <div className="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+              <span className="text-sm">Digital Clock</span>
+              <Switch
+                checked={digitalClock}
+                onCheckedChange={toggleClockType}
+              />
             </div>
           </div>
 

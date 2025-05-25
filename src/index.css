@@ -70,4 +70,17 @@
   .glow-effect {
     box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
   }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
 }
