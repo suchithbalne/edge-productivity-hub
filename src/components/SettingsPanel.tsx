@@ -44,6 +44,9 @@ const SettingsPanel = ({ isOpen, onClose }: SettingsPanelProps) => {
   const [weatherApiKey, setWeatherApiKey] = useState(() => 
     localStorage.getItem('edge-homepage-weather-api-key') || ''
   );
+  const [advancedFeatures, setAdvancedFeatures] = useState(() => 
+    localStorage.getItem('edge-homepage-advanced-features') === 'true'
+  );
 
   const saveUserName = () => {
     localStorage.setItem('edge-homepage-username', userName);
@@ -78,6 +81,14 @@ const SettingsPanel = ({ isOpen, onClose }: SettingsPanelProps) => {
         useCustomLocation,
         apiKey: weatherApiKey
       } 
+    }));
+  };
+  
+  const toggleAdvancedFeatures = (enabled: boolean) => {
+    setAdvancedFeatures(enabled);
+    localStorage.setItem('edge-homepage-advanced-features', enabled.toString());
+    window.dispatchEvent(new CustomEvent('advancedFeaturesChanged', { 
+      detail: { enabled } 
     }));
   };
 
@@ -236,12 +247,26 @@ const SettingsPanel = ({ isOpen, onClose }: SettingsPanelProps) => {
               <Layout className="w-4 h-4 mr-2" />
               Layout Options
             </label>
-            <div className="flex items-center justify-between p-3 bg-white/5 rounded-lg">
-              <span className="text-sm">Compact Mode</span>
-              <Switch
-                checked={compactMode}
-                onCheckedChange={toggleCompactMode}
-              />
+            <div className="space-y-2">
+              <div className="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+                <span className="text-sm">Compact Mode</span>
+                <Switch
+                  checked={compactMode}
+                  onCheckedChange={toggleCompactMode}
+                />
+              </div>
+              <div className="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+                <span className="text-sm">Advanced Features</span>
+                <Switch
+                  checked={advancedFeatures}
+                  onCheckedChange={toggleAdvancedFeatures}
+                />
+              </div>
+              {advancedFeatures && (
+                <p className="text-xs text-muted-foreground p-2">
+                  Advanced features include Pomodoro timer, quick notes, daily goals, meeting scheduler, website analytics, focus mode, task management, smart bookmarks, habit tracker, and inspirational quotes.
+                </p>
+              )}
             </div>
           </div>
         </div>

@@ -3,7 +3,7 @@
   "name": "Modern Productivity Hub",
   "version": "1.0.0",
   "description": "A stylish, customizable new tab page with productivity tools",
-  "permissions": ["storage", "bookmarks"],
+  "permissions": ["storage", "bookmarks", "history"],
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
@@ -11,6 +11,9 @@
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
   },
   "action": {
     "default_icon": {

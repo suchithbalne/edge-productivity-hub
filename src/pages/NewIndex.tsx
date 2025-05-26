@@ -10,6 +10,7 @@ import CustomizableToolPanel from '@/components/CustomizableToolPanel';
 import WeatherWidget from '@/components/WeatherWidget';
 import SettingsPanel from '@/components/SettingsPanel';
 import DockBar from '@/components/DockBar';
+import WebsiteAnalytics from '@/components/WebsiteAnalytics';
 
 const NewIndex = () => {
   const [clockStyle, setClockStyle] = useState<'digital' | 'analog'>('digital');
@@ -19,6 +20,9 @@ const NewIndex = () => {
   const [userName, setUserName] = useState('User');
   const [theme, setTheme] = useState<'dark' | 'light'>(() => 
     localStorage.getItem('edge-homepage-theme-mode') as 'dark' | 'light' || 'dark'
+  );
+  const [advancedFeaturesEnabled, setAdvancedFeaturesEnabled] = useState(() => 
+    localStorage.getItem('edge-homepage-advanced-features') === 'true'
   );
 
   // Add click handler to close panels when clicking elsewhere
@@ -75,15 +79,22 @@ const NewIndex = () => {
     const handleThemeChange = (e: CustomEvent) => {
       setTheme(e.detail.theme.name === 'Dark' ? 'dark' : 'light');
     };
+    
+    // Listen for advanced features changes from settings
+    const handleAdvancedFeaturesChange = (e: CustomEvent) => {
+      setAdvancedFeaturesEnabled(e.detail.enabled);
+    };
 
     window.addEventListener('userNameChanged', handleUserNameChange as EventListener);
     window.addEventListener('clockTypeChanged', handleClockTypeChange as EventListener);
     window.addEventListener('themeChanged', handleThemeChange as EventListener);
+    window.addEventListener('advancedFeaturesChanged', handleAdvancedFeaturesChange as EventListener);
 
     return () => {
       window.removeEventListener('userNameChanged', handleUserNameChange as EventListener);
       window.removeEventListener('clockTypeChanged', handleClockTypeChange as EventListener);
       window.removeEventListener('themeChanged', handleThemeChange as EventListener);
+      window.removeEventListener('advancedFeaturesChanged', handleAdvancedFeaturesChange as EventListener);
     };
   }, []);
 
@@ -134,33 +145,40 @@ const NewIndex = () => {
         )}
         
         {/* Main content */}
-        <div className="flex flex-col items-center justify-center min-h-screen z-10">
-          {/* Greeting text */}
-          <div className="w-full flex justify-center items-center mb-6">
-            <h1 className={`text-2xl font-bold text-center ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
-              {greeting}, {userName}
-            </h1>
+        <div className="flex-1 flex flex-col items-center justify-center p-6 relative">
+          
+          {/* Main content container with two columns */}
+          <div className="w-full max-w-4xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            {/* Left column - Clock */}
+            <div>
+              <ModernClock clockStyle={clockStyle} />
+            </div>
+            
+            {/* Right column - Weather */}
+            <div>
+              <WeatherWidget />
+            </div>
           </div>
           
-          {/* Centered content container */}
-          <div className="w-full max-w-4xl mx-auto px-4 flex flex-col items-center space-y-6">
-            {/* Clock and Weather row */}
-            <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* Clock - left */}
-              <div className="md:col-span-1">
-                <ModernClock clockStyle={clockStyle} />
-              </div>
-              
-              {/* Weather - right */}
-              <div className="md:col-span-2">
-                <WeatherWidget />
+          {/* Search and Greeting row */}
+          <div className="w-full max-w-4xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            {/* Left column - Greeting */}
+            <div className="md:col-span-1">
+              <div className="glass-card p-6 h-full flex flex-col items-center justify-center">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-primary via-purple-500 to-blue-500 text-transparent bg-clip-text">Hey, {userName}!</h1>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-primary text-transparent bg-clip-text">{greeting}</h1>
               </div>
             </div>
             
-            {/* Search - centered */}
-            <div className="w-full max-w-xl mx-auto">
+            {/* Right column - Search */}
+            <div className="md:col-span-2">
               <ModernSearch />
             </div>
+          </div>
+          
+          {/* Website Analytics */}
+          <div className="w-full max-w-4xl mx-auto px-4">
+            <WebsiteAnalytics isVisible={advancedFeaturesEnabled} />
           </div>
         </div>
         
