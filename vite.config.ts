@@ -46,7 +46,8 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  base: '/edge-productivity-hub/',
+  // Only use the base path for production builds
+  base: mode === 'production' ? '/edge-productivity-hub/' : '/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
