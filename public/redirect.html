@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0;url=https://suchithbalne.github.io/edge-productivity-hub/">
   <title>Redirecting...</title>
   <style>
     body {
@@ -25,12 +24,28 @@
       color: transparent;
       font-weight: bold;
     }
+    .loader {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3498db;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
+  <!-- External script file instead of inline script to comply with CSP -->
+  <script src="redirect.js"></script>
 </head>
 <body>
   <div class="message">
     <h1>Redirecting to your productivity hub...</h1>
-    <p>If you are not redirected automatically, <a href="https://suchithbalne.github.io/edge-productivity-hub/">click here</a>.</p>
+    <div class="loader"></div>
+    <p>If you are not redirected automatically, <a href="https://suchithbalne.github.io/edge-productivity-hub/" id="manual-link">click here</a>.</p>
   </div>
 </body>
 </html>
