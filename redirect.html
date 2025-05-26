@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0;url=https://suchithbalne.github.io/edge-productivity-hub/">
   <title>Redirecting...</title>
   <style>
     body {
@@ -25,12 +24,50 @@
       color: transparent;
       font-weight: bold;
     }
+    .loader {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3498db;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
+  <script>
+    // Function to get URL with theme parameter
+    function getRedirectUrl() {
+      // Get user's theme preference from localStorage
+      const userTheme = localStorage.getItem('edge-homepage-theme') || 'Blue';
+      
+      // Base URL for GitHub Pages
+      const baseUrl = 'https://suchithbalne.github.io/edge-productivity-hub/';
+      
+      // Add theme parameter to URL
+      return `${baseUrl}?theme=${encodeURIComponent(userTheme)}`;
+    }
+    
+    // Redirect after a short delay to ensure localStorage is accessed
+    window.onload = function() {
+      setTimeout(function() {
+        window.location.href = getRedirectUrl();
+      }, 100);
+    };
+  </script>
 </head>
 <body>
   <div class="message">
     <h1>Redirecting to your productivity hub...</h1>
-    <p>If you are not redirected automatically, <a href="https://suchithbalne.github.io/edge-productivity-hub/">click here</a>.</p>
+    <div class="loader"></div>
+    <p>If you are not redirected automatically, <a href="https://suchithbalne.github.io/edge-productivity-hub/" id="manual-link">click here</a>.</p>
   </div>
+  <script>
+    // Update the manual link with theme parameter
+    document.getElementById('manual-link').href = getRedirectUrl();
+  </script>
 </body>
 </html>
