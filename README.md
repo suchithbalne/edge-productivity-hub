@@ -2,39 +2,50 @@
 
 ## Features
 
-- **Customizable Clock**: Toggle between digital and analog clock styles
-- **Theme Switching**: Switch between light and dark themes
-- **Quick Search**: Search using multiple search engines with a minimalist interface
-- **Customizable Tools**: Add and manage your favorite AI tools, social links, and workspace apps
-- **Bookmarks**: Easily access and organize your bookmarks
-- **Tasks**: Keep track of your to-do items
-- **Weather Widget**: View current weather conditions
+- **Customizable Clock**: Positioned on the left side with blinking colons
+- **Weather Widget**: Located on the right side with real-time weather data
+- **Quick Search**: Search bar positioned below the clock and weather
+- **Personalized Greeting**: Gradient text styling showing time-based greetings
+- **Website Analytics**: Track and categorize your website usage
+  - Time spent tracking
+  - Website categorization (productive, neutral, distracting)
+  - Daily time limits for distracting websites
+  - Visual analytics with progress bars and charts
+- **Clean, Modern UI**: Glass-card styling with proper spacing
 - **Responsive Design**: Works on various screen sizes
 
-## Chrome Extension Setup
+## Browser Extension Setup
 
-To use this as a Chrome extension:
+This extension redirects new tabs to the GitHub Pages version of the productivity hub:
 
-1. Build the project:
+1. Build the extension:
    ```sh
    npm run build
    ```
 
-2. Open Chrome and navigate to `chrome://extensions/`
+2. For Microsoft Edge:
+   - Navigate to `edge://extensions/`
+   - Enable "Developer mode"
+   - Click "Load unpacked" and select the `dist` folder
 
-3. Enable "Developer mode" by toggling the switch in the top right corner
+3. For Google Chrome:
+   - Navigate to `chrome://extensions/`
+   - Enable "Developer mode"
+   - Click "Load unpacked" and select the `dist` folder
 
-4. Click "Load unpacked" and select the `dist` folder from this project
-
-5. The extension is now installed! Open a new tab to see your customized homepage
+4. The extension is now installed! Open a new tab to see your productivity hub
 
 ## How to use
 
-- **Theme Toggle**: Click the sun/moon icon in the clock widget to switch between light and dark themes
-- **Clock Style**: Toggle between digital and analog clock styles using the button in the clock widget
-- **Search**: Use the search bar to quickly search with your preferred engine
-- **Customization**: Click the settings icon in each widget to add or remove items
-- **Expandable Menus**: Click on AI Tools, Social, Google, or Microsoft buttons to expand their respective menus
+- **Theme Toggle**: Switch between light and dark themes in the settings panel
+- **Search**: Use the search bar positioned below the clock and weather to quickly search the web
+- **Weather Widget**: View current weather conditions on the right side of the screen
+- **Website Analytics**: Access through the "Advanced Features" toggle in settings
+  - **Overview Tab**: See a summary of your browsing habits with time spent statistics
+  - **Details Tab**: View detailed breakdown of websites visited and time spent
+  - **Limits Tab**: Set daily time limits for distracting websites
+  - **Add/Edit/Remove**: Manage which websites are tracked and how they're categorized
+- **Settings Panel**: Customize your experience and toggle features on/off
 
 ## How can I edit this code?
 
@@ -92,13 +103,36 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
-## How can I deploy this project?
+## Deployment
 
-Simply open [Lovable](https://lovable.dev/projects/aedbf6cc-087d-4bb0-b5c4-d6cb3f5e6849) and click on Share -> Publish.
+This project is deployed in two ways:
 
-## Can I connect a custom domain to my Lovable project?
+1. **GitHub Pages**: The main application is deployed to GitHub Pages at:
+   ```
+   https://suchithbalne.github.io/edge-productivity-hub/
+   ```
+   To update the deployment, run:
+   ```sh
+   npm run deploy
+   ```
 
-Yes, you can!
+2. **Browser Extension**: The extension redirects new tabs to the GitHub Pages deployment.
+   To update the extension after making changes:
+   ```sh
+   npm run build
+   ```
+   Then reinstall the extension from the `dist` folder in your browser.
+
+## Using as Default Homepage
+
+You can set this productivity hub as your default homepage in several ways:
+
+1. **As a New Tab Page**: Install the browser extension as described above
+
+2. **As a Homepage**: Set your browser's homepage to:
+   ```
+   https://suchithbalne.github.io/edge-productivity-hub/
+   ```
 
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 

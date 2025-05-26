@@ -46,8 +46,8 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  // Only use the base path for production builds
-  base: mode === 'production' ? '/edge-productivity-hub/' : '/',
+  // Use relative paths for browser extension
+  base: mode === 'production' && !process.env.EXTENSION ? '/edge-productivity-hub/' : './',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
